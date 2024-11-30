@@ -2,8 +2,14 @@ import axios from 'axios';
 
 // Create an Axios instance
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080/api', // Update with your API base URL
-});
+    baseURL: 'https://todo-server-nine-psi.vercel.app/api',  // Your backend API
+    headers: {
+      'Content-Type': 'application/json',
+      
+    },
+
+    withCredentials: true,  // Send cookies with the request (if needed, e.g., for session authentication)
+  });
 
 // Request Interceptor
 axiosInstance.interceptors.request.use(
