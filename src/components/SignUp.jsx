@@ -25,7 +25,7 @@ const Signup = () => {
       const response = await signUp(formData)
       
       if (response.code === 200) {
-        localStorage.setItem('accessToken', response.accessToken);
+        localStorage.setItem('accessToken', response?.data?.accessToken);
         navigate('/todo'); // Redirect to login on successful signup
       }
     } catch (error) {
