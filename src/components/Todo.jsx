@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { addTodo, fetchTasks, updateTask, deleteTasks } from '../api/todoApi'; // Assuming the API functions are in taskApi
+import { addTodo, fetchTasks, updateTask, deleteTasks } from '../api/todoApi';
 
 // Function to format today's date as yyyy-mm-dd
 const getTodayDate = () => {
@@ -11,7 +11,6 @@ const getTodayDate = () => {
 };
 
 const TodoApp = () => {
-  // State hooks
   const [tasks, setTasks] = useState([]);
   const [taskInput, setTaskInput] = useState({
     title: '',
@@ -22,7 +21,7 @@ const TodoApp = () => {
   const [isSelecting, setIsSelecting] = useState(false);
   const [selectedTasks, setSelectedTasks] = useState([]);
   const [editingTask, setEditingTask] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);  // Ensure currentPage starts at 1
   const [totalPages, setTotalPages] = useState(1);
   const [limit, setLimit] = useState(5); // Default limit per page
 
@@ -32,8 +31,11 @@ const TodoApp = () => {
       try {
         const response = await fetchTasks({ limit, page: currentPage });
         const { data, totalData } = response.data;
+
         setTasks(data);
-        setTotalPages(Math.ceil(totalData / limit)); // Calculate total pages
+
+        // Calculate totalPages from the totalData and limit
+        setTotalPages(Math.ceil(totalData / limit));
       } catch (error) {
         console.error('Error fetching tasks:', error);
       }
@@ -238,10 +240,10 @@ const TodoApp = () => {
         </div>
 
         {/* Select Tasks Button */}
-        <div className="mb-4">
+        <div className="mb-6">
           <button
-            onClick={() => setIsSelecting((prev) => !prev)}
-            className="w-full p-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+            onClick={() => setIsSelecting(!isSelecting)}
+            className="w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
           >
             {isSelecting ? 'Cancel Selection' : 'Select Tasks'}
           </button>
@@ -313,19 +315,17 @@ const TodoApp = () => {
                       )}
                     </div>
                     <div className="flex flex-col">
-                        <span className='flex gap-2' >
-                      <span className={`font-semibold ${task.status === 'completed' ? 'line-through' : ''}`}>
-                        {task.title} 
-                      </span>
-                      <span className={`text-xs w-fit py-1 px-2 mt-1 rounded-full ${getPriorityColor(task.priority)}`}>{task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}</span>
-
+                      <span className="flex gap-2">
+                        <span className={`font-semibold ${task.status === 'completed' ? 'line-through' : ''}`}>
+                          {task.title}
                         </span>
-                      
-                      <span className="text-sm text-gray-500">{task.description}</span>
-                      <span className="text-xs text-gray-400">
-                        Due: {new Date(task.due_date).toLocaleDateString()}
+                        <span className={`text-xs w-fit py-1 px-2 mt-1 rounded-full ${getPriorityColor(task.priority)}`}>
+                          {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
+                        </span>
                       </span>
-                     
+
+                      <span className="text-sm text-gray-500">{task.description}</span>
+                      <span className="text-xs text-gray-400">Due: {new Date(task.due_date).toLocaleDateString()}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
