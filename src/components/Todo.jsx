@@ -41,7 +41,7 @@ const TodoApp = () => {
       }
     };
     fetchData();
-  }, [currentPage, limit]);
+  }, [currentPage, limit, tasks.length%5 === 0]);
 
   // Handle input field changes
   const handleInputChange = (e) => {
@@ -120,14 +120,6 @@ const TodoApp = () => {
     );
   };
 
-  // Select or unselect all tasks
-  const toggleSelectAll = () => {
-    if (selectedTasks.length === tasks.length) {
-      setSelectedTasks([]);
-    } else {
-      setSelectedTasks(tasks.map((task) => task._id));
-    }
-  };
 
   // Delete selected tasks
   const deleteSelectedTasks = async () => {
